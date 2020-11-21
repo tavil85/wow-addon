@@ -1,0 +1,7 @@
+## Interface: 90002
+## Title: Speed
+## Author: Tavil
+## Version: 1.2
+## SavedVariables: show_player_speed , show_target_speed
+
+main.lua
