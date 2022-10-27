@@ -2,6 +2,7 @@
 ## Title: PaladinTools
 ## Author: Tavil
 ## Version: 1.0
+## SavedVariables: show_innergrace
 
 main.lua
 # Get the interface number with /run print(select(4,GetBuildInfo()))

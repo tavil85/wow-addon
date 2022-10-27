@@ -7,14 +7,15 @@ local innergrace_lastupdate = 0
 if show_innergrace  == nil then show_innergrace = true end
 
 function innergrace_onupdate(self,elapsed)
-    if player_incombat then
-        innergrace_lastupdate = innergrace_lastupdate + elapsed;
-        if innergrace_lastupdate >= ONUPDATE_INTERVAL then
-            innergrace_lastupdate = 0
-            self.text:SetText(format("%s",math.fmod(math.floor(starttime),INNERGRACE_INTERVAL)+1))
-        end
-    else
-        innergrace_timer = INNERGRACE_INTERVAL
+    innergrace_lastupdate = innergrace_lastupdate + elapsed;
+    if innergrace_lastupdate >= ONUPDATE_INTERVAL then
+    	innergrace_lastupdate = 0
+    	if player_incombat then
+    	    innergrace_timer = INNERGRACE_INTERVAL - math.fmod(math.floor(GetTime() - starttime),INNERGRACE_INTERVAL)
+    	else
+    	    innergrace_timer = INNERGRACE_INTERVAL
+    	end
+    	self.text:SetText(format("%s",innergrace_timer))
     end
 end
 
@@ -29,10 +30,18 @@ f:EnableMouse(true)
 f:SetScript("OnMouseDown",function() f:StartMoving() end)
 f:SetScript("OnMouseUp",function() f:StopMovingOrSizing() end)
 
-local l = CreateFrame("Frame")
-l:RegisterEvent("PLAYER_LOGIN")
-l:SetScript("OnEvent", function(self, event) 
+local g = CreateFrame("Frame")
+g:RegisterEvent("PLAYER_LOGIN")
+g:SetScript("OnEvent", function(self, event) 
     print("Paladintools addon is active. Type /paladintools to see available commands.")
+end);
+
+local l = CreateFrame("Frame")
+l:RegisterEvent("ADDON_LOADED")
+l:SetScript("OnEvent", function(self, event) 
+	if not show_innergrace then
+		f:Hide()
+	end
 end);
 
 local h = CreateFrame("Frame")
@@ -63,8 +72,8 @@ local function handler(msg, editbox)
         f:Hide()
         show_innergrace = false
     else
-        print("/speed reset to center the frame.")
-        print("/speed showinnergrace/hideinnergrace to show or hide inner grace timer.")
+        print("/paladintools reset to center the frame.")
+        print("/paladintools showinnergrace/hideinnergrace to show or hide inner grace timer.")
     end
 end
 SlashCmdList["PALADINTOOLS"] = handler;
