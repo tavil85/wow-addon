@@ -1,6 +1,6 @@
-ONUPDATE_INTERVAL = 0.1
-player_lastupdate = 0
-target_lastupdate = 0
+local ONUPDATE_INTERVAL = 0.1
+local player_lastupdate = 0
+local target_lastupdate = 0
 if show_player_speed  == nil then show_player_speed = true end
 if show_target_speed  == nil then show_target_speed = true end
 function player_speed_onupdate(self,elapsed)
@@ -17,7 +17,7 @@ function target_speed_onupdate(self,elapsed)
 		self.text:SetText(format("%s",math.floor((GetUnitSpeed("target")/0.07)+0.5)))
 	end
 end
-f = CreateFrame("Frame","PlayerSpeedFrame",UIParent)
+local f = CreateFrame("Frame","PlayerSpeedFrame",UIParent)
 f:SetSize(50,50)
 f:SetPoint("CENTER",-25,0)
 f.text = f.text or f:CreateFontString(nil,"ARTWORK","GameFontHighlightLarge")
@@ -27,7 +27,7 @@ f:SetMovable(true)
 f:EnableMouse(true)
 f:SetScript("OnMouseDown",function() f:StartMoving() end)
 f:SetScript("OnMouseUp",function() f:StopMovingOrSizing() end)
-g = CreateFrame("Frame","TargetSpeedFrame",UIParent)
+local g = CreateFrame("Frame","TargetSpeedFrame",UIParent)
 g:SetSize(50,50)
 g:SetPoint("CENTER",25,0)
 g.text = g.text or g:CreateFontString(nil,"ARTWORK","GameFontDisableLarge")
@@ -38,19 +38,19 @@ g:EnableMouse(true)
 g:SetScript("OnMouseDown",function() g:StartMoving() end)
 g:SetScript("OnMouseUp",function() g:StopMovingOrSizing() end)
 g:Hide()
-l = CreateFrame("Frame")
+local l = CreateFrame("Frame")
 l:RegisterEvent("PLAYER_LOGIN")
 l:SetScript("OnEvent", function(self, event) 
 	print("Speed addon is active. Type /speed to see available commands.")
 end);
-h = CreateFrame("Frame")
+local h = CreateFrame("Frame")
 h:RegisterEvent("ADDON_LOADED")
 h:SetScript("OnEvent", function(self, event) 
 	if not show_player_speed then
 		f:Hide()
 	end
 end);
-k = CreateFrame("Frame")
+local k = CreateFrame("Frame")
 k:RegisterEvent("PLAYER_TARGET_CHANGED")
 k:SetScript("OnEvent", function(self, event) 
 	if UnitExists("target") and show_target_speed then
