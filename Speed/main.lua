@@ -39,7 +39,7 @@ g:SetScript("OnMouseDown",function() g:StartMoving() end)
 g:SetScript("OnMouseUp",function() g:StopMovingOrSizing() end)
 g:Hide()
 local l = CreateFrame("Frame")
-l:RegisterEvent("PLAYER_LOGIN")
+l:RegisterEvent("PLAYER_ENTERING_WORLD")
 l:SetScript("OnEvent", function(self, event) 
 	print("Speed addon is active. Type /speed to see available commands.")
 end);
