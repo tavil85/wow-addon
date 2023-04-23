@@ -1,7 +1,7 @@
-## Interface: 100005
+## Interface: 100007
 ## Title: Speed
 ## Author: Tavil
-## Version: 1.2
+## Version: 1.3
 ## SavedVariables: show_player_speed , show_target_speed
 
 main.lua

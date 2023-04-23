@@ -1,13 +1,18 @@
 local ONUPDATE_INTERVAL = 0.1
 local player_lastupdate = 0
 local target_lastupdate = 0
-if show_player_speed  == nil then show_player_speed = true end
-if show_target_speed  == nil then show_target_speed = true end
+if show_player_speed == nil then show_player_speed = true end
+if show_target_speed == nil then show_target_speed = true end
 function player_speed_onupdate(self,elapsed)
 	player_lastupdate = player_lastupdate + elapsed;
 	if player_lastupdate >= ONUPDATE_INTERVAL then
 		player_lastupdate = 0
-		self.text:SetText(format("%s",math.floor((GetUnitSpeed("player")/0.07)+0.5)))
+		local isGliding, canGlide, forwardSpeed = C_PlayerInfo.GetGlidingInfo()
+		if isGliding then
+			self.text:SetText(format("%s",math.floor((forwardSpeed/0.07)+0.5)))
+		else
+			self.text:SetText(format("%s",math.floor((GetUnitSpeed("player")/0.07)+0.5)))
+		end
 	end
 end
 function target_speed_onupdate(self,elapsed)
@@ -40,19 +45,19 @@ g:SetScript("OnMouseUp",function() g:StopMovingOrSizing() end)
 g:Hide()
 local l = CreateFrame("Frame")
 l:RegisterEvent("PLAYER_ENTERING_WORLD")
-l:SetScript("OnEvent", function(self, event) 
+l:SetScript("OnEvent", function(self, event)
 	print("Speed addon is active. Type /speed to see available commands.")
 end);
 local h = CreateFrame("Frame")
 h:RegisterEvent("ADDON_LOADED")
-h:SetScript("OnEvent", function(self, event) 
+h:SetScript("OnEvent", function(self, event)
 	if not show_player_speed then
 		f:Hide()
 	end
 end);
 local k = CreateFrame("Frame")
 k:RegisterEvent("PLAYER_TARGET_CHANGED")
-k:SetScript("OnEvent", function(self, event) 
+k:SetScript("OnEvent", function(self, event)
 	if UnitExists("target") and show_target_speed then
 		g:Show()
 	else
