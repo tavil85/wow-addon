@@ -1,4 +1,4 @@
-## Interface: 110205
+## Interface: 120005
 ## Title: Speed
 
 ## Author: Tavil

@@ -60,7 +60,7 @@ end);
 local h = CreateFrame("Frame")
 h:RegisterEvent("ADDON_LOADED")
 h:SetScript("OnEvent", function(self, event)
-	if not show_player_speed then
+	if not show_player_speed or UnitAffectingCombat("player") then
 		f:Hide()
 	end
 end);
@@ -68,7 +68,7 @@ local k = CreateFrame("Frame")
 k:RegisterEvent("PLAYER_TARGET_CHANGED")
 k:RegisterEvent("PLAYER_ENTERING_WORLD")
 k:SetScript("OnEvent", function(self, event)
-	if UnitExists("target") and show_target_speed then
+	if UnitExists("target") and show_target_speed and not UnitAffectingCombat("player") then
 		g:Show()
 	else
 		g:Hide()
