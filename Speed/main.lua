@@ -10,7 +10,11 @@ function player_speed_onupdate(self,elapsed)
 		player_lastupdate = 0
 		local isGliding, canGlide, forwardSpeed = C_PlayerInfo.GetGlidingInfo()
 		if isGliding then
-			self.text:SetText(format("%s",math.floor((forwardSpeed/0.07)+0.5)))
+			local glidespeed = math.floor((forwardSpeed/0.07)+0.5)
+			if glidespeed == 789 then -- max glide down speed
+				glidespeed = "-789-"
+			end
+			self.text:SetText(format("%s",glidespeed))
 		else
 			self.text:SetText(format("%s",math.floor((GetUnitSpeed("player")/0.07)+0.5)))
 		end
