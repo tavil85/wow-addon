@@ -6,7 +6,7 @@ if show_target_speed == nil then show_target_speed = true end
 if move_lock == nil then move_lock = false end
 function player_speed_onupdate(self,elapsed)
 	player_lastupdate = player_lastupdate + elapsed;
-	if player_lastupdate >= ONUPDATE_INTERVAL and not UnitAffectingCombat("player") then
+	if player_lastupdate >= ONUPDATE_INTERVAL and not issecretvalue(GetUnitSpeed("player")) then
 		player_lastupdate = 0
 		local isGliding, canGlide, forwardSpeed = C_PlayerInfo.GetGlidingInfo()
 		if isGliding then
@@ -22,7 +22,7 @@ function player_speed_onupdate(self,elapsed)
 end
 function target_speed_onupdate(self,elapsed)
 	target_lastupdate = target_lastupdate + elapsed;
-	if target_lastupdate >= ONUPDATE_INTERVAL and not UnitAffectingCombat("player") then
+	if target_lastupdate >= ONUPDATE_INTERVAL and not issecretvalue(GetUnitSpeed("target")) then
 		target_lastupdate = 0
 		self.text:SetText(format("%s",math.floor((GetUnitSpeed("target")/0.07)+0.5)))
 	end
@@ -66,7 +66,7 @@ h:RegisterEvent("ADDON_LOADED")
 h:RegisterEvent("PLAYER_REGEN_ENABLED")
 h:RegisterEvent("PLAYER_REGEN_DISABLED")
 h:SetScript("OnEvent", function(self, event)
-	if not show_player_speed or UnitAffectingCombat("player") then
+	if not show_player_speed or UnitAffectingCombat("player") or issecretvalue(GetUnitSpeed("player")) then
 		f:Hide()
 	else
 		f:Show()
@@ -78,7 +78,7 @@ k:RegisterEvent("PLAYER_ENTERING_WORLD")
 k:RegisterEvent("PLAYER_REGEN_ENABLED")
 k:RegisterEvent("PLAYER_REGEN_DISABLED")
 k:SetScript("OnEvent", function(self, event)
-	if UnitExists("target") and show_target_speed and not UnitAffectingCombat("player") then
+	if UnitExists("target") and show_target_speed and not UnitAffectingCombat("player") and not issecretvalue(GetUnitSpeed("target")) then
 		g:Show()
 	else
 		g:Hide()
